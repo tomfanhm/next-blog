@@ -108,6 +108,7 @@ const meta: Meta = {
   parameters: {
     layout: "fullscreen",
     nextjs: {
+      appDirectory: true,
       navigation: {
         searchParams: {},
       },

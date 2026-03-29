@@ -8,6 +8,7 @@ const meta: Meta<typeof DateSidebar> = {
   parameters: {
     layout: "fullscreen",
     nextjs: {
+      appDirectory: true,
       navigation: {
         searchParams: { year: "2026", month: "3" },
       },

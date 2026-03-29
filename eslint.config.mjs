@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 const eslintConfig = tseslint.config(
   {
-    ignores: [".next/", "node_modules/", "playwright-report/", "test-results/", "src/generated/"],
+    ignores: [".next/", "node_modules/", "playwright-report/", "test-results/", "src/generated/", ".storybook/mocks/"],
   },
   ...tseslint.configs.strictTypeChecked,
   {
