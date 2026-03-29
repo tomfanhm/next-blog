@@ -39,7 +39,7 @@ jobs:
         run: pnpm typecheck
 
       - name: Unit Tests
-        run: pnpm test
+        run: pnpm vitest run --project=unit
 
   build:
     name: Production Build
