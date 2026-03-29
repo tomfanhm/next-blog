@@ -1,5 +1,6 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 
+import { env } from "@/env";
 import type { Prisma } from "@/generated/prisma/client";
 import { PrismaClient } from "@/generated/prisma/client";
 
@@ -11,7 +12,7 @@ let _db: PrismaClient | null = null;
 export function getDb(): PrismaClient {
   if (!_db) {
     _db = new PrismaClient({
-      adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+      adapter: new PrismaPg({ connectionString: env.DATABASE_URL }),
     });
   }
   return _db;

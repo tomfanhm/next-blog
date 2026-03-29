@@ -1,22 +1,18 @@
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-function getEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) throw new Error(`Missing environment variable: ${name}`);
-  return value;
-}
+import { env } from "@/env";
 
 const R2 = new S3Client({
   region: "auto",
-  endpoint: getEnv("R2_ENDPOINT"),
+  endpoint: env.R2_ENDPOINT,
   credentials: {
-    accessKeyId: getEnv("R2_ACCESS_KEY_ID"),
-    secretAccessKey: getEnv("R2_SECRET_ACCESS_KEY"),
+    accessKeyId: env.R2_ACCESS_KEY_ID,
+    secretAccessKey: env.R2_SECRET_ACCESS_KEY,
   },
 });
 
-const BUCKET = getEnv("R2_BUCKET_NAME");
-const PUBLIC_URL = getEnv("R2_PUBLIC_URL"); // e.g. https://cdn.yourdomain.com
+const BUCKET = env.R2_BUCKET_NAME;
+const PUBLIC_URL = env.R2_PUBLIC_URL;
 
 /**
  * Upload a thumbnail image to Cloudflare R2.

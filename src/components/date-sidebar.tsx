@@ -95,7 +95,7 @@ function YearSection({
             return (
               <Link
                 key={month}
-                href={`/blog?year=${String(year)}&month=${String(monthIndex)}`}
+                href={`/?year=${String(year)}&month=${String(monthIndex)}`}
                 className={`text-sm ${isActiveMonth ? "text-primary font-medium" : "text-muted-foreground hover:text-foreground"}`}
               >
                 {month}

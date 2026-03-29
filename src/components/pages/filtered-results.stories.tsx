@@ -44,7 +44,7 @@ function FilteredResultsPage() {
         <div className="flex items-center gap-3">
           <h1 className="text-foreground text-[22px] font-semibold">Search: Next.js</h1>
           <Link
-            href="/blog"
+            href="/"
             className="bg-muted text-muted-foreground hover:bg-muted/80 flex h-7 w-7 items-center justify-center rounded-full"
           >
             <X className="h-3.5 w-3.5" />

@@ -1,6 +1,5 @@
 import { Eye } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { AdPlaceholder } from "@/components/ad-placeholder";
@@ -68,16 +67,10 @@ export default async function PostPage({ params }: PostPageProps) {
       </div>
 
       {/* Comments */}
-      <div className="mt-8 flex items-center justify-between">
+      <div className="mt-8">
         <h2 className="text-foreground text-xl font-semibold">
           {post.comments.reduce((n, c) => n + 1 + c.replies.length, 0)} Comments
         </h2>
-        <Link
-          href={`/blog/${slug}/comments`}
-          className="text-muted-foreground hover:text-foreground text-[13px]"
-        >
-          View all comments →
-        </Link>
       </div>
 
       <div className="mt-6">

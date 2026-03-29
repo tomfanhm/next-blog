@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
 
+import { env } from "@/env";
 import { getDb } from "@/lib/db";
 
 // Generate at request time — DB is not available during static build
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const baseUrl = env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
   const posts = await getDb().post.findMany({
     where: { published: true },
@@ -14,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${baseUrl}/posts/${post.slug}`,
+    url: `${baseUrl}/blog/${post.slug}`,
     lastModified: post.updatedAt,
   }));
 
