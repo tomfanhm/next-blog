@@ -32,7 +32,7 @@ export const env = createEnv({
     R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
-  // Skip validation during build when env vars may not be available
-  // (e.g. static generation, Prisma generate in CI)
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  // Skip validation when env vars are not available
+  // (e.g. local build without .env.local, CI prisma generate)
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION || !process.env.DATABASE_URL,
 });
