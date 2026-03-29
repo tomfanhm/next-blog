@@ -1,8 +1,7 @@
-import type { Comment } from "@prisma/client";
-
 import { CommentCard } from "@/components/comment-card";
 import { CommentForm } from "@/components/comment-form";
 import { Separator } from "@/components/ui/separator";
+import type { Comment } from "@/generated/prisma/client";
 
 interface CommentWithReplies extends Comment {
   replies: Comment[];

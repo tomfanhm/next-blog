@@ -28,7 +28,6 @@ const baseComment = {
   postId: "post-1",
   parentId: null,
   createdAt: hoursAgo(3),
-  updatedAt: hoursAgo(3),
 };
 
 export const Default: Story = {
@@ -51,7 +50,6 @@ export const WithReplies: Story = {
           postId: "post-1",
           parentId: "comment-1",
           createdAt: hoursAgo(1),
-          updatedAt: hoursAgo(1),
         },
         {
           id: "reply-2",
@@ -61,7 +59,6 @@ export const WithReplies: Story = {
           postId: "post-1",
           parentId: "comment-1",
           createdAt: hoursAgo(0.5),
-          updatedAt: hoursAgo(0.5),
         },
       ],
     },

@@ -1,5 +1,7 @@
-import type { Prisma } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+
+import type { Prisma } from "@/generated/prisma/client";
+import { PrismaClient } from "@/generated/prisma/client";
 
 // Lazy singleton pattern — safe during `next build` static generation
 // when DATABASE_URL may not be available yet.
@@ -8,7 +10,9 @@ let _db: PrismaClient | null = null;
 
 export function getDb(): PrismaClient {
   if (!_db) {
-    _db = new PrismaClient();
+    _db = new PrismaClient({
+      adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+    });
   }
   return _db;
 }

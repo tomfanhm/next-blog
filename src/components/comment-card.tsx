@@ -1,11 +1,11 @@
 "use client";
 
-import type { Comment } from "@prisma/client";
 import { useState } from "react";
 
 import { CommentForm } from "@/components/comment-form";
 import { Avatar, AvatarText } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import type { Comment } from "@/generated/prisma/client";
 
 interface CommentWithReplies extends Comment {
   replies?: Comment[];
