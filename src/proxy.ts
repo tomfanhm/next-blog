@@ -3,19 +3,29 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@/lib/auth";
 
-const protectedPaths = ["/dashboard"];
+/** Paths that require any authenticated user */
+const authPaths = ["/profile"];
+
+/** Paths that require admin role */
+const adminPaths = ["/dashboard"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const isProtected = protectedPaths.some((p) => pathname.startsWith(p));
-  if (!isProtected) return NextResponse.next();
+  const needsAuth = authPaths.some((p) => pathname.startsWith(p));
+  const needsAdmin = adminPaths.some((p) => pathname.startsWith(p));
+
+  if (!needsAuth && !needsAdmin) return NextResponse.next();
 
   const session = await auth();
   if (!session?.user) {
     const signInUrl = new URL("/sign-in", request.url);
     signInUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(signInUrl);
+  }
+
+  if (needsAdmin && session.user.role !== "admin") {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
