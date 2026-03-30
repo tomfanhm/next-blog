@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
+
 import { auth } from "@/lib/auth";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Manage your blog posts and settings.",
+};
 
 export default async function DashboardPage() {
   const session = await auth();

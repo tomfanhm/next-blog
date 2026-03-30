@@ -11,9 +11,9 @@ interface ProfileFormProps {
 
 export function ProfileForm({ defaultName, defaultAvatar }: ProfileFormProps) {
   return (
-    <div className="border-border bg-card w-full max-w-[480px] rounded-xl border p-8 shadow-sm">
+    <div className="border-border bg-card w-full max-w-md rounded-xl border p-8 shadow-sm">
       <div className="flex flex-col gap-1">
-        <h1 className="text-foreground text-[22px] font-semibold">User Profile</h1>
+        <h1 className="text-foreground text-xl font-semibold">User Profile</h1>
         <p className="text-muted-foreground text-sm">Manage your display identity for comments</p>
       </div>
 

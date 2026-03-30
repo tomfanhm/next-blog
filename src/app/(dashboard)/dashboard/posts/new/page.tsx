@@ -43,7 +43,7 @@ export default function NewPostPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-muted-foreground text-[13px]">
+          <span className="text-muted-foreground text-xs">
             Automatically saved to local storage
           </span>
           <Button
@@ -67,7 +67,7 @@ export default function NewPostPage() {
           name="title"
           placeholder="Enter your title..."
           required
-          className="text-foreground placeholder:text-muted-foreground border-0 bg-transparent text-[28px] font-normal focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="text-foreground placeholder:text-muted-foreground border-0 bg-transparent text-3xl font-normal focus-visible:ring-0 focus-visible:ring-offset-0"
         />
         <input type="hidden" name="published" value="true" />
       </div>
@@ -88,7 +88,7 @@ export default function NewPostPage() {
 
       {/* Thumbnail Section */}
       <div className="border-border flex items-center gap-6 border-b px-6 py-4">
-        <div className="border-border bg-accent flex h-[130px] w-[200px] shrink-0 items-center justify-center overflow-hidden rounded-lg border">
+        <div className="border-border bg-accent flex h-32 w-50 shrink-0 items-center justify-center overflow-hidden rounded-lg border">
           {thumbnailPreview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -106,7 +106,7 @@ export default function NewPostPage() {
 
         <div className="flex flex-col gap-3">
           <span className="text-foreground text-sm font-medium">Featured Image (Optional)</span>
-          <p className="text-muted-foreground text-[13px] leading-relaxed">
+          <p className="text-muted-foreground text-xs leading-relaxed">
             Add a thumbnail image to your post. Recommended size: 1200x630px. Supported formats:
             JPG, PNG, WebP.
           </p>

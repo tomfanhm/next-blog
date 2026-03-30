@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(npx eslint:*)",
+      "Bash(ls c:/Users/user/Desktop/next-blog/src/app/\\\\\\(dashboard\\\\\\)/dashboard/posts/new/)",
+      "Bash(git diff:*)"
+    ]
+  }
+}

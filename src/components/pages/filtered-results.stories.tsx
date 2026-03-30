@@ -40,9 +40,9 @@ function FilteredResultsPage() {
   return (
     <div className="bg-background text-foreground flex h-screen flex-col">
       <Navbar searchDefaultValue="Next.js" />
-      <main className="mx-auto w-full max-w-[900px] px-6 py-12">
+      <main className="mx-auto w-full max-w-4xl px-6 py-12">
         <div className="flex items-center gap-3">
-          <h1 className="text-foreground text-[22px] font-semibold">Search: Next.js</h1>
+          <h1 className="text-foreground text-xl font-semibold">Search: Next.js</h1>
           <Link
             href="/"
             className="bg-muted text-muted-foreground hover:bg-muted/80 flex h-7 w-7 items-center justify-center rounded-full"

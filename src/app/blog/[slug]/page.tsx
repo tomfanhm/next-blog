@@ -1,4 +1,5 @@
 import { Eye } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -10,6 +11,19 @@ import { getPostBySlug } from "@/lib/db";
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const post = await getPostBySlug(slug);
+    return {
+      title: post.title,
+      description: post.content.slice(0, 160),
+    };
+  } catch {
+    return { title: "Post Not Found" };
+  }
 }
 
 export default async function PostPage({ params }: PostPageProps) {
@@ -31,16 +45,16 @@ export default async function PostPage({ params }: PostPageProps) {
   });
 
   return (
-    <main className="mx-auto w-full max-w-[720px] px-6 py-12">
+    <main className="mx-auto w-full max-w-3xl px-6 py-12">
       {/* Post Header */}
       <div className="flex flex-col gap-3">
-        <h1 className="text-foreground text-[28px] leading-tight font-semibold">{post.title}</h1>
+        <h1 className="text-foreground text-3xl leading-tight font-semibold">{post.title}</h1>
         <div className="flex items-center gap-4">
-          <time className="text-muted-foreground text-[13px]">{formattedDate}</time>
+          <time className="text-muted-foreground text-xs">{formattedDate}</time>
           <span className="bg-muted-foreground h-1 w-1 rounded-full" />
           <div className="flex items-center gap-1.5">
             <Eye className="text-muted-foreground h-3.5 w-3.5" />
-            <span className="text-muted-foreground text-[13px]">
+            <span className="text-muted-foreground text-xs">
               {post.views.toLocaleString()} views
             </span>
           </div>
@@ -49,7 +63,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
       {/* Hero Image */}
       {post.thumbnail && (
-        <div className="relative mt-8 h-[360px] w-full overflow-hidden rounded-xl">
+        <div className="relative mt-8 h-90 w-full overflow-hidden rounded-xl">
           <Image src={post.thumbnail} alt={post.title} fill className="object-cover" priority />
         </div>
       )}

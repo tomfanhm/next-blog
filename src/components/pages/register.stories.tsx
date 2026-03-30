@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 function RegisterPage() {
   return (
     <div className="bg-background flex min-h-screen items-center justify-center">
-      <Card className="w-full max-w-[400px]">
+      <Card className="w-full max-w-sm">
         <CardHeader className="items-center gap-2 pb-0">
           <h1 className="text-foreground text-2xl font-semibold">Next Blog</h1>
           <p className="text-muted-foreground text-sm">Create your account</p>

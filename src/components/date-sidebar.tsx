@@ -36,8 +36,10 @@ export function DateSidebar({ years }: DateSidebarProps) {
   const activeYear = searchParams.get("year");
   const activeMonth = searchParams.get("month");
 
+  if (years.length === 0) return null;
+
   return (
-    <aside className="border-border flex w-60 shrink-0 flex-col gap-5 border-r px-6 py-8">
+    <aside className="border-border hidden w-60 shrink-0 flex-col gap-5 border-r px-6 py-8 md:flex">
       <span className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
         Filter by Date
       </span>
@@ -83,7 +85,7 @@ function YearSection({
         ) : (
           <ChevronRight className="text-foreground h-4 w-4" />
         )}
-        <span className="text-foreground text-[15px] font-medium">{year}</span>
+        <span className="text-foreground text-sm font-medium">{year}</span>
       </button>
 
       {open && months.length > 0 && (

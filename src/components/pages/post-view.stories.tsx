@@ -63,24 +63,24 @@ function PostViewPage() {
     <div className="bg-background text-foreground flex min-h-screen flex-col">
       <Navbar />
 
-      <main className="mx-auto w-full max-w-[720px] px-6 py-12">
+      <main className="mx-auto w-full max-w-3xl px-6 py-12">
         {/* Post Header */}
         <div className="flex flex-col gap-3">
-          <h1 className="text-foreground text-[28px] leading-tight font-semibold">
+          <h1 className="text-foreground text-3xl leading-tight font-semibold">
             The Art of Minimalist Design: Less is More
           </h1>
           <div className="flex items-center gap-4">
-            <time className="text-muted-foreground text-[13px]">March 15, 2026</time>
+            <time className="text-muted-foreground text-xs">March 15, 2026</time>
             <span className="bg-muted-foreground h-1 w-1 rounded-full" />
             <div className="flex items-center gap-1.5">
               <Eye className="text-muted-foreground h-3.5 w-3.5" />
-              <span className="text-muted-foreground text-[13px]">1,247 views</span>
+              <span className="text-muted-foreground text-xs">1,247 views</span>
             </div>
           </div>
         </div>
 
         {/* Hero image */}
-        <div className="relative mt-8 h-[360px] w-full overflow-hidden rounded-xl">
+        <div className="relative mt-8 h-90 w-full overflow-hidden rounded-xl">
           <Image
             src="https://picsum.photos/seed/hero/1200/400"
             alt="Post hero"

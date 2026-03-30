@@ -1,4 +1,5 @@
 import { Globe, SquareTerminal } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -7,12 +8,19 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "@/lib/auth";
 
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to your Next Blog account.",
+};
+
 export default function SignInPage() {
   return (
-    <Card className="w-full max-w-[400px]">
+    <Card className="w-full max-w-sm">
       {/* Header */}
       <CardHeader className="items-center gap-2 pb-0">
-        <h1 className="text-foreground text-2xl font-semibold">Next Blog</h1>
+        <Link href="/" className="text-foreground text-2xl font-semibold hover:opacity-80">
+          Next Blog
+        </Link>
         <p className="text-muted-foreground text-sm">Sign in to your account</p>
       </CardHeader>
 

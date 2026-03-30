@@ -10,9 +10,9 @@ function UserProfilePage() {
     <div className="bg-background text-foreground flex h-screen flex-col">
       <Navbar />
       <main className="flex flex-1 items-center justify-center px-10 py-10">
-        <div className="border-border bg-card w-full max-w-[480px] rounded-xl border p-8 shadow-sm">
+        <div className="border-border bg-card w-full max-w-md rounded-xl border p-8 shadow-sm">
           <div className="flex flex-col gap-1">
-            <h1 className="text-foreground text-[22px] font-semibold">User Profile</h1>
+            <h1 className="text-foreground text-xl font-semibold">User Profile</h1>
             <p className="text-muted-foreground text-sm">
               Manage your display identity for comments
             </p>

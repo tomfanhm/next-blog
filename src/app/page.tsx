@@ -1,13 +1,20 @@
-import { Search, X } from "lucide-react";
+import { FileText, Search, X } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
 import { AdPlaceholder } from "@/components/ad-placeholder";
+import { BottomTabBar } from "@/components/bottom-tab-bar";
 import { DateSidebar } from "@/components/date-sidebar";
 import { Navbar } from "@/components/navbar";
 import { PostCard, PostCardHorizontal } from "@/components/post-card";
-import { getPostsByDate, searchPosts } from "@/lib/db";
+import { getPostDateGroups, getPostsByDate, searchPosts } from "@/lib/db";
 import { postFiltersSchema } from "@/lib/validators";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Browse the latest blog posts on design, development, and more.",
+};
 
 interface HomePageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -42,21 +49,23 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   if (hasSearch) {
     return (
       <div className="bg-background flex min-h-screen flex-col">
-        <Navbar />
-        <main className="mx-auto w-full max-w-[900px] px-6 py-12">
+        <Navbar searchDefaultValue={filters.search} />
+        <main className="mx-auto w-full max-w-4xl px-3 py-6 pb-28 sm:px-6 sm:py-12 md:pb-12">
           {/* Filter status bar */}
           <div className="flex items-center gap-3">
-            <h1 className="text-foreground text-[22px] font-semibold">Search: {filters.search}</h1>
+            <h1 className="text-foreground text-lg font-semibold sm:text-xl">
+              Search: {filters.search}
+            </h1>
             <Link
               href="/"
-              className="bg-muted text-muted-foreground hover:bg-muted/80 flex h-7 w-7 items-center justify-center rounded-full"
+              className="bg-muted text-muted-foreground hover:bg-muted/80 flex h-7 w-7 shrink-0 items-center justify-center rounded-full"
             >
               <X className="h-3.5 w-3.5" />
             </Link>
           </div>
 
           {/* Horizontal post cards */}
-          <div className="mt-8 flex flex-col">
+          <div className="mt-6 flex flex-col sm:mt-8">
             {posts.map((post, i) => (
               <div key={post.id}>
                 <PostCardHorizontal
@@ -87,17 +96,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
           <p className="text-muted-foreground mt-6 text-center text-sm">{total} result(s)</p>
         </main>
+        <BottomTabBar />
       </div>
     );
   }
 
-  // Default Blog Home layout with sidebar
-  // Static year groups — in production, derive from actual post dates
-  const yearGroups = [
-    { year: 2024, months: ["March", "February", "January"] },
-    { year: 2023, months: [] },
-    { year: 2022, months: [] },
-  ];
+  // Fetch year groups from actual post data
+  const yearGroups = await getPostDateGroups();
 
   return (
     <div className="bg-background flex min-h-screen flex-col">
@@ -107,7 +112,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <DateSidebar years={yearGroups} />
         </Suspense>
 
-        <main className="flex flex-1 flex-col gap-6 px-12 py-8">
+        <main className="flex min-w-0 flex-1 flex-col gap-4 px-3 py-5 pb-28 sm:px-8 sm:py-8 md:gap-6 md:pb-8 lg:px-12">
           {/* Post cards */}
           <div className="flex flex-col gap-4">
             {posts.map((post, i) => (
@@ -119,6 +124,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                   date={formatDate(post.createdAt)}
                   views={post.views}
                   thumbnail={post.thumbnail}
+                  tag={i === 0 ? "Design" : i === 1 ? "Development" : null}
                 />
                 {i === 2 && posts.length > 3 && (
                   <div className="mt-4">
@@ -128,7 +134,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               </div>
             ))}
             {posts.length === 0 && (
-              <p className="text-muted-foreground py-12 text-center">No posts yet.</p>
+              <div className="flex flex-col items-center gap-4 py-20">
+                <FileText className="text-muted-foreground h-12 w-12" />
+                <p className="text-foreground text-lg font-medium">No posts yet</p>
+                <p className="text-muted-foreground text-center text-sm">
+                  Posts will appear here once published.
+                </p>
+              </div>
             )}
           </div>
 
@@ -138,7 +150,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               {page > 1 && (
                 <Link
                   href={{ pathname: "/", query: { ...raw, page: page - 1 } }}
-                  className="text-foreground hover:bg-accent rounded-md px-6 py-2 text-sm font-medium"
+                  className="text-foreground hover:bg-accent rounded-md px-4 py-2 text-sm font-medium sm:px-6"
                 >
                   Previous
                 </Link>
@@ -169,7 +181,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               {page < totalPages && (
                 <Link
                   href={{ pathname: "/", query: { ...raw, page: page + 1 } }}
-                  className="text-foreground hover:bg-accent rounded-md px-6 py-2 text-sm font-medium"
+                  className="text-foreground hover:bg-accent rounded-md px-4 py-2 text-sm font-medium sm:px-6"
                 >
                   Next
                 </Link>
@@ -178,6 +190,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           )}
         </main>
       </div>
+      <BottomTabBar />
     </div>
   );
 }

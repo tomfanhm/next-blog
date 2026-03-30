@@ -12,7 +12,7 @@ export function AdPlaceholder({ size, label }: AdPlaceholderProps) {
       className="flex items-center justify-center rounded-lg border-2 border-blue-500 bg-blue-100"
       style={{ height }}
     >
-      <span className="text-[13px] font-semibold text-blue-500">{label ?? defaultLabel}</span>
+      <span className="text-xs font-semibold text-blue-500">{label ?? defaultLabel}</span>
     </div>
   );
 }

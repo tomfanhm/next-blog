@@ -71,7 +71,7 @@ export function CommentForm({ postId, parentId, compact, onSuccess }: CommentFor
               }`}
             />
           </button>
-          <span className="text-muted-foreground text-[13px]">Anonymity Mode</span>
+          <span className="text-muted-foreground text-xs">Anonymity Mode</span>
         </div>
 
         <Button type="submit" disabled={isPending} size={compact ? "sm" : "default"}>

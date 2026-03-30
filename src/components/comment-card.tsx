@@ -54,7 +54,7 @@ export function CommentCard({ comment, postId, isReply = false }: CommentCardPro
           <div className="flex min-w-0 flex-1 flex-col gap-1.5">
             <div className="flex items-center gap-2">
               <span className="text-foreground text-sm font-semibold">{comment.authorName}</span>
-              <span className="text-muted-foreground text-[13px]">
+              <span className="text-muted-foreground text-xs">
                 {formatTimeAgo(comment.createdAt)}
               </span>
             </div>
@@ -66,7 +66,7 @@ export function CommentCard({ comment, postId, isReply = false }: CommentCardPro
                 onClick={() => {
                   setShowReplyForm((prev) => !prev);
                 }}
-                className="text-primary w-fit text-[13px] font-medium hover:underline"
+                className="text-primary w-fit text-xs font-medium hover:underline"
               >
                 {showReplyForm ? "Cancel" : "Reply"}
               </button>

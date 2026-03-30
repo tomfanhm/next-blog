@@ -193,3 +193,55 @@ export async function createComment(data: {
 export async function deleteComment(id: string) {
   return getDb().comment.delete({ where: { id } });
 }
+
+// ─── Post Date Groups ────────────────────────────────────
+
+interface YearMonth {
+  year: number;
+  month: number;
+}
+
+/**
+ * Get distinct year/month combinations from published posts,
+ * grouped by year with month names, ordered most recent first.
+ */
+export async function getPostDateGroups() {
+  const db = getDb();
+
+  const rows = await db.$queryRaw<YearMonth[]>`
+    SELECT
+      EXTRACT(YEAR FROM "createdAt")::int   AS year,
+      EXTRACT(MONTH FROM "createdAt")::int  AS month
+    FROM "Post"
+    WHERE "published" = true
+    GROUP BY year, month
+    ORDER BY year DESC, month DESC
+  `;
+
+  const MONTH_NAMES = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const grouped = new Map<number, string[]>();
+  for (const row of rows) {
+    const months = grouped.get(row.year) ?? [];
+    months.push(MONTH_NAMES[row.month - 1] ?? "");
+    grouped.set(row.year, months);
+  }
+
+  return Array.from(grouped.entries()).map(([year, months]) => ({
+    year,
+    months,
+  }));
+}
