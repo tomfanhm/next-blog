@@ -52,7 +52,7 @@ export async function searchPosts(query: string, limit = 20, offset = 0) {
   const db = getDb();
 
   // Sanitize: strip tsquery special characters to prevent syntax errors
-  const sanitized = query.replace(/[&|!<>():*]/g, " ").trim();
+  const sanitized = query.replace(/[&|!<>():*'\\]/g, " ").trim();
   // Convert words to tsquery format: "hello world" → "hello & world"
   const tsquery = sanitized.split(/\s+/).filter(Boolean).join(" & ");
 
@@ -126,13 +126,13 @@ export async function getPostsByDate(filters: PostFilters) {
 /**
  * Get a post by slug, incrementing its view count atomically.
  * Includes top-level comments with one level of nested replies.
+ * Returns null if the post does not exist.
  */
 export async function getPostBySlug(slug: string) {
   const db = getDb();
 
-  const post = await db.post.update({
+  const post = await db.post.findUnique({
     where: { slug },
-    data: { views: { increment: 1 } },
     include: {
       comments: {
         where: { parentId: null },
@@ -145,6 +145,16 @@ export async function getPostBySlug(slug: string) {
       },
     },
   });
+
+  if (!post) return null;
+
+  // Only increment views for published posts
+  if (post.published) {
+    await db.post.update({
+      where: { slug },
+      data: { views: { increment: 1 } },
+    });
+  }
 
   return post;
 }

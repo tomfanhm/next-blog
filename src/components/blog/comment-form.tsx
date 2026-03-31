@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 
 import { createCommentAction } from "@/app/actions/comment";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ interface CommentFormProps {
 
 export function CommentForm({ postId, parentId, onCancel }: CommentFormProps) {
   const [avatar, setAvatar] = useState<AvatarPreset>(AVATAR_PRESETS[0]);
+  const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(
     _prev: ActionResult<{ id: string }> | null,
@@ -26,13 +27,18 @@ export function CommentForm({ postId, parentId, onCancel }: CommentFormProps) {
     formData.set("postId", postId);
     if (parentId) formData.set("parentId", parentId);
     formData.set("authorAvatar", avatar);
-    return createCommentAction(formData);
+    const result = await createCommentAction(formData);
+    if (result.success) {
+      formRef.current?.reset();
+      setAvatar(AVATAR_PRESETS[0]);
+    }
+    return result;
   }
 
   const [state, action, isPending] = useActionState(handleSubmit, null);
 
   return (
-    <form action={action} className="flex flex-col gap-3">
+    <form ref={formRef} action={action} className="flex flex-col gap-3">
       <div className="flex gap-3">
         <Input name="authorName" placeholder="Your name" required className="flex-1" />
       </div>
@@ -43,10 +49,11 @@ export function CommentForm({ postId, parentId, onCancel }: CommentFormProps) {
         name="content"
         placeholder={parentId ? "Write a reply..." : "Share your thoughts on this post..."}
         required
-        className="min-h-[80px] resize-none"
+        className="resize-none"
       />
 
       {state && !state.success && <p className="text-destructive text-sm">{state.error}</p>}
+      {state?.success && <p className="text-sm text-green-600">Comment posted!</p>}
 
       <div className="flex items-center justify-end gap-2">
         {onCancel && (

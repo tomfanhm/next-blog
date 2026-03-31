@@ -43,6 +43,10 @@ export async function uploadThumbnail(
 export async function deleteThumbnail(url: string): Promise<void> {
   const key = url.replace(`${PUBLIC_URL}/`, "");
 
+  if (!key.startsWith("thumbnails/")) {
+    throw new Error(`Invalid thumbnail key: ${key}`);
+  }
+
   await R2.send(
     new DeleteObjectCommand({
       Bucket: BUCKET,

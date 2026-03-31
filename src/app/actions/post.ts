@@ -50,11 +50,19 @@ export async function createPostAction(
       thumbnail = await uploadThumbnail(buffer, file.name, file.type);
     }
 
+    // Check for duplicate slug before creating
+    const existing = await getDb().post.findUnique({
+      where: { slug: parsed.data.slug },
+      select: { id: true },
+    });
+    if (existing) return createActionError("A post with this slug already exists");
+
     const post = await createPost({ ...parsed.data, thumbnail });
     revalidatePath("/");
     return createActionResult({ slug: post.slug });
   } catch (e) {
-    return createActionError(e instanceof Error ? e.message : "Failed to create post");
+    console.error("[createPostAction] failed:", e);
+    return createActionError("Failed to create post");
   }
 }
 
@@ -95,7 +103,8 @@ export async function updatePostAction(
     revalidatePath(`/blog/${post.slug}`);
     return createActionResult({ slug: post.slug });
   } catch (e) {
-    return createActionError(e instanceof Error ? e.message : "Failed to update post");
+    console.error("[updatePostAction] failed:", e);
+    return createActionError("Failed to update post");
   }
 }
 
@@ -110,6 +119,7 @@ export async function deletePostAction(id: string): Promise<ActionResult> {
     revalidatePath("/");
     return createActionResult(undefined);
   } catch (e) {
-    return createActionError(e instanceof Error ? e.message : "Failed to delete post");
+    console.error("[deletePostAction] failed:", e);
+    return createActionError("Failed to delete post");
   }
 }

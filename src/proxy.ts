@@ -6,8 +6,8 @@ import { auth } from "@/lib/auth";
 /** Paths that require any authenticated user */
 const authPaths = ["/profile"];
 
-/** Paths that require admin role */
-const adminPaths = ["/dashboard"];
+/** Paths that require admin role — must cover all (dashboard) route group paths */
+const adminPaths = ["/create", "/dashboard"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

@@ -19,15 +19,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   session: { strategy: "database" },
   callbacks: {
-    async session({ session, user }) {
+    session({ session, user }) {
       session.user.id = user.id;
-
-      const dbUser = await getDb().user.findUnique({
-        where: { id: user.id },
-        select: { role: true },
-      });
-      session.user.role = dbUser?.role ?? "user";
-
+      // PrismaAdapter returns the full User row which includes `role`.
+      // Cast to access it directly instead of making an extra DB query.
+      session.user.role = (user as unknown as { role: string | null }).role ?? "user";
       return session;
     },
   },

@@ -27,6 +27,7 @@ export async function updateProfileAction(formData: FormData): Promise<ActionRes
     revalidatePath("/profile");
     return createActionResult(undefined);
   } catch (e) {
-    return createActionError(e instanceof Error ? e.message : "Failed to update profile");
+    console.error("[updateProfileAction] failed:", e);
+    return createActionError("Failed to update profile");
   }
 }

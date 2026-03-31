@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
+import { auth } from "@/lib/auth";
 import { createComment, deleteComment, getDb } from "@/lib/db";
 import {
   type ActionResult,
@@ -46,12 +47,24 @@ export async function createCommentAction(
 
     return createActionResult({ id: comment.id });
   } catch (e) {
-    return createActionError(e instanceof Error ? e.message : "Failed to post comment");
+    console.error("[createCommentAction] failed:", e);
+    return createActionError("Failed to post comment");
   }
 }
 
 export async function deleteCommentAction(id: string): Promise<ActionResult> {
   try {
+    const session = await auth();
+    if (!session?.user.id) return createActionError("Not authenticated");
+
+    const user = await getDb().user.findUnique({
+      where: { id: session.user.id },
+      select: { role: true },
+    });
+    if (!user || user.role !== "admin") {
+      return createActionError("Not authorized");
+    }
+
     const comment = await getDb().comment.findUnique({
       where: { id },
       select: { post: { select: { slug: true } } },
@@ -62,6 +75,7 @@ export async function deleteCommentAction(id: string): Promise<ActionResult> {
     if (comment?.post.slug) revalidatePath(`/blog/${comment.post.slug}`);
     return createActionResult(undefined);
   } catch (e) {
-    return createActionError(e instanceof Error ? e.message : "Failed to delete comment");
+    console.error("[deleteCommentAction] failed:", e);
+    return createActionError("Failed to delete comment");
   }
 }
