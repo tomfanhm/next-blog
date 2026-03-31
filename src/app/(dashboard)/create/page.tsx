@@ -75,11 +75,6 @@ export default function NewPostPage() {
 
         <div className="flex items-center gap-3">
           {error && <span className="text-destructive hidden text-xs sm:block">{error}</span>}
-          {!error && (
-            <span className="text-muted-foreground hidden text-xs sm:block">
-              Autosave: saved to local storage
-            </span>
-          )}
           <Button variant="outline" size="sm" asChild>
             <Link href="/">Cancel</Link>
           </Button>

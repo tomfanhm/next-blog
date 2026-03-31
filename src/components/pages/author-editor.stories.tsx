@@ -53,9 +53,6 @@ function EditorContent() {
           <span className="text-sm font-medium">Edit Post</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-muted-foreground hidden text-xs sm:block">
-            Autosave: saved to local storage
-          </span>
           <Button variant="outline" size="sm">
             Cancel
           </Button>

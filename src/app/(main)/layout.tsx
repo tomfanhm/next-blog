@@ -9,7 +9,11 @@ import { auth, signOut } from "@/lib/auth";
 export default async function MainLayout({ children }: { children: ReactNode }) {
   const session = await auth();
   const user = session?.user
-    ? { name: session.user.name ?? "", image: session.user.image ?? null, role: session.user.role }
+    ? {
+        name: session.user.name ?? "",
+        avatar: session.user.image ?? "avatar-cat",
+        role: session.user.role,
+      }
     : null;
 
   async function handleSignOut() {
