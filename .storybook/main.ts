@@ -24,6 +24,7 @@ const config: StorybookConfig = {
     Object.assign(config.resolve.alias, {
       "@prisma/adapter-pg": path.resolve(__dirname, "mocks/prisma-adapter.ts"),
       "@/generated/prisma/client": path.resolve(__dirname, "mocks/prisma-client.ts"),
+      "@/lib/auth": path.resolve(__dirname, "mocks/auth.ts"),
     });
 
     // Override next/image with a simple <img> mock.
