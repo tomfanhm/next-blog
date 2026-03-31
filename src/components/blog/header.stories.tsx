@@ -13,10 +13,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const LoggedOut: Story = {};
 
-export const WithoutSearch: Story = {
+export const LoggedIn: Story = {
   args: {
-    showSearch: false,
+    user: { name: "Jane Doe", image: null, role: "user" },
+  },
+};
+
+export const Admin: Story = {
+  args: {
+    user: { name: "Admin User", image: null, role: "admin" },
   },
 };

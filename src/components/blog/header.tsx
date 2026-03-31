@@ -1,22 +1,48 @@
 "use client";
 
-import { Search, Settings, User } from "lucide-react";
+import { LogOut, PenSquare, Search, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+
+interface HeaderUser {
+  name: string;
+  image: string | null;
+  role: string;
+}
 
 interface BlogHeaderProps {
   className?: string;
   showSearch?: boolean;
+  user?: HeaderUser | null;
+  onSignOut?: () => Promise<void>;
 }
 
-export function BlogHeader({ className, showSearch = true }: BlogHeaderProps) {
+export function BlogHeader({ className, showSearch = true, user, onSignOut }: BlogHeaderProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [menuOpen]);
 
   function handleSearch(e: React.SyntheticEvent) {
     e.preventDefault();
@@ -52,15 +78,80 @@ export function BlogHeader({ className, showSearch = true }: BlogHeaderProps) {
         )}
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/profile"
-            className="text-muted-foreground hover:text-foreground hidden md:block"
-          >
-            <Settings className="size-5" />
-          </Link>
-          <Link href="/profile" className="text-muted-foreground hover:text-foreground md:hidden">
-            <User className="size-5" />
-          </Link>
+          {user ? (
+            <div ref={menuRef} className="relative">
+              <button
+                onClick={() => {
+                  setMenuOpen((prev) => !prev);
+                }}
+                className="flex items-center"
+              >
+                {user.image ? (
+                  <Image
+                    src={user.image}
+                    alt={user.name}
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <div className="bg-muted text-muted-foreground flex size-8 items-center justify-center rounded-full text-sm font-medium">
+                    {user.name.charAt(0).toUpperCase() || "U"}
+                  </div>
+                )}
+              </button>
+
+              {menuOpen && (
+                <div className="bg-popover border-border absolute top-full right-0 z-50 mt-2 w-48 rounded-md border py-1 shadow-md">
+                  <div className="border-border border-b px-3 py-2">
+                    <p className="text-sm font-medium">{user.name || "User"}</p>
+                  </div>
+
+                  <Link
+                    href="/profile"
+                    onClick={() => {
+                      setMenuOpen(false);
+                    }}
+                    className="hover:bg-accent flex w-full items-center gap-2 px-3 py-2 text-sm"
+                  >
+                    <User className="size-4" />
+                    Profile
+                  </Link>
+
+                  {user.role === "admin" && (
+                    <Link
+                      href="/dashboard/posts/new"
+                      onClick={() => {
+                        setMenuOpen(false);
+                      }}
+                      className="hover:bg-accent flex w-full items-center gap-2 px-3 py-2 text-sm"
+                    >
+                      <PenSquare className="size-4" />
+                      Create Post
+                    </Link>
+                  )}
+
+                  {onSignOut && (
+                    <div className="border-border border-t">
+                      <form action={onSignOut}>
+                        <button
+                          type="submit"
+                          className="hover:bg-accent flex w-full items-center gap-2 px-3 py-2 text-sm"
+                        >
+                          <LogOut className="size-4" />
+                          Log out
+                        </button>
+                      </form>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/sign-in">Log in</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>
