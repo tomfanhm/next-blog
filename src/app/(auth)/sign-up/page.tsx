@@ -3,6 +3,7 @@ import Link from "next/link";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export const metadata = { title: "Sign Up" };
 
@@ -17,30 +18,22 @@ export default function SignUpPage() {
 
         <form className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="displayName" className="text-sm font-medium">
-              Display Name
-            </label>
+            <Label htmlFor="displayName">Display Name</Label>
             <Input id="displayName" type="text" placeholder="Enter your name" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-medium">
-              Email
-            </label>
+            <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" placeholder="you@example.com" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-sm font-medium">
-              Password
-            </label>
+            <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" placeholder="Create a password" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="confirmPassword" className="text-sm font-medium">
-              Confirm Password
-            </label>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
             <Input id="confirmPassword" type="password" placeholder="Confirm your password" />
           </div>
 

@@ -80,11 +80,13 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
         <div className="flex items-center gap-2">
           {user ? (
             <div ref={menuRef} className="relative">
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => {
                   setMenuOpen((prev) => !prev);
                 }}
-                className="flex items-center"
+                className="size-8 rounded-full"
               >
                 {user.image ? (
                   <Image
@@ -99,7 +101,7 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
                     {user.name.charAt(0).toUpperCase() || "U"}
                   </div>
                 )}
-              </button>
+              </Button>
 
               {menuOpen && (
                 <div className="bg-popover border-border absolute top-full right-0 z-50 mt-2 w-48 rounded-md border py-1 shadow-md">
@@ -107,40 +109,51 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
                     <p className="text-sm font-medium">{user.name || "User"}</p>
                   </div>
 
-                  <Link
-                    href="/profile"
-                    onClick={() => {
-                      setMenuOpen(false);
-                    }}
-                    className="hover:bg-accent flex w-full items-center gap-2 px-3 py-2 text-sm"
+                  <Button
+                    variant="ghost"
+                    className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2 text-sm font-normal"
+                    asChild
                   >
-                    <User className="size-4" />
-                    Profile
-                  </Link>
-
-                  {user.role === "admin" && (
                     <Link
-                      href="/dashboard/posts/new"
+                      href="/profile"
                       onClick={() => {
                         setMenuOpen(false);
                       }}
-                      className="hover:bg-accent flex w-full items-center gap-2 px-3 py-2 text-sm"
                     >
-                      <PenSquare className="size-4" />
-                      Create Post
+                      <User className="size-4" />
+                      Profile
                     </Link>
+                  </Button>
+
+                  {user.role === "admin" && (
+                    <Button
+                      variant="ghost"
+                      className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2 text-sm font-normal"
+                      asChild
+                    >
+                      <Link
+                        href="/dashboard/posts/new"
+                        onClick={() => {
+                          setMenuOpen(false);
+                        }}
+                      >
+                        <PenSquare className="size-4" />
+                        Create Post
+                      </Link>
+                    </Button>
                   )}
 
                   {onSignOut && (
                     <div className="border-border border-t">
                       <form action={onSignOut}>
-                        <button
+                        <Button
                           type="submit"
-                          className="hover:bg-accent flex w-full items-center gap-2 px-3 py-2 text-sm"
+                          variant="ghost"
+                          className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2 text-sm font-normal"
                         >
                           <LogOut className="size-4" />
                           Log out
-                        </button>
+                        </Button>
                       </form>
                     </div>
                   )}

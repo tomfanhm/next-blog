@@ -114,12 +114,14 @@ export default function NewPostPage() {
         {thumbnailPreview ? (
           <div className="relative size-16 shrink-0 overflow-hidden rounded-md">
             <Image src={thumbnailPreview} alt="Thumbnail" fill className="object-cover" />
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={clearThumbnail}
-              className="bg-background/80 absolute top-0 right-0 rounded-bl p-0.5"
+              className="bg-background/80 absolute top-0 right-0 size-5 rounded-bl"
             >
               <X className="size-3" />
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="bg-muted flex size-16 shrink-0 items-center justify-center rounded-md">

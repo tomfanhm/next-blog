@@ -7,6 +7,7 @@ import { AvatarPicker } from "@/components/blog/avatar-picker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import type { ActionResult, AvatarPreset } from "@/lib/validators";
 
 interface ProfileFormProps {
@@ -28,9 +29,7 @@ export function ProfileForm({ userName }: ProfileFormProps) {
   const formContent = (
     <form action={action} className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <label htmlFor="name" className="text-sm font-medium">
-          Display Name
-        </label>
+        <Label htmlFor="name">Display Name</Label>
         <Input
           id="name"
           name="name"

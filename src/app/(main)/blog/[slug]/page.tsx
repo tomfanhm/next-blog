@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { CommentForm } from "@/components/blog/comment-form";
 import { CommentList } from "@/components/blog/comment-list";
 import { MarkdownContent } from "@/components/blog/markdown-content";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getPostBySlug } from "@/lib/db";
 
@@ -70,10 +71,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <section>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold">{post.comments.length} Comments</h2>
-          <button className="text-muted-foreground flex items-center gap-1 text-sm">
+          <Button variant="ghost" size="sm" className="text-muted-foreground gap-1">
             Newest
             <ChevronDown className="size-3.5" />
-          </button>
+          </Button>
         </div>
 
         <div className="mt-6">

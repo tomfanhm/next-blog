@@ -3,6 +3,7 @@ import Link from "next/link";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export const metadata = { title: "Sign In" };
 
@@ -17,16 +18,12 @@ export default function SignInPage() {
 
         <form className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-medium">
-              Email
-            </label>
+            <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" placeholder="you@example.com" />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-sm font-medium">
-              Password
-            </label>
+            <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" placeholder="Enter your password" />
           </div>
 

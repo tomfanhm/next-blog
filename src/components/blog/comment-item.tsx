@@ -1,4 +1,5 @@
 import { Avatar, AvatarText } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import { avatarEmoji } from "./avatar-picker";
@@ -35,12 +36,14 @@ export function CommentItem({
         <p className="text-muted-foreground mt-1 text-sm">{content}</p>
 
         {onReply && (
-          <button
+          <Button
+            variant="link"
+            size="sm"
             onClick={onReply}
-            className="text-muted-foreground hover:text-foreground mt-1 text-xs font-medium"
+            className="text-muted-foreground hover:text-foreground mt-1 h-auto p-0 text-xs font-medium"
           >
             Reply
-          </button>
+          </Button>
         )}
       </div>
     </div>
