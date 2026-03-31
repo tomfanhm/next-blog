@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface DateGroup {
@@ -54,7 +55,7 @@ export function DateSidebar({ dateGroups, className }: DateSidebarProps) {
   }
 
   return (
-    <aside className={cn("hidden w-48 shrink-0 lg:block", className)}>
+    <aside aria-label="Filter by date" className={cn("hidden w-48 shrink-0 lg:block", className)}>
       <h3 className="text-muted-foreground mb-3 text-xs font-semibold tracking-wider uppercase">
         Filter by Date
       </h3>
@@ -66,12 +67,15 @@ export function DateSidebar({ dateGroups, className }: DateSidebarProps) {
 
           return (
             <div key={group.year}>
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   toggleYear(group.year);
                 }}
+                aria-expanded={isExpanded}
                 className={cn(
-                  "hover:text-foreground flex w-full items-center gap-1 py-1 text-sm font-medium",
+                  "h-auto w-full justify-start gap-1 px-0 py-1 text-sm font-medium",
                   isYearActive ? "text-foreground" : "text-muted-foreground",
                 )}
               >
@@ -79,7 +83,7 @@ export function DateSidebar({ dateGroups, className }: DateSidebarProps) {
                   className={cn("size-3.5 transition-transform", isExpanded && "rotate-90")}
                 />
                 {group.year}
-              </button>
+              </Button>
 
               {isExpanded && (
                 <div className="ml-5 flex flex-col gap-0.5">

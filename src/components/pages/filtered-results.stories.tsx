@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { BottomNav } from "@/components/blog/bottom-nav";
 import { BlogHeader } from "@/components/blog/header";
 import { PostCard } from "@/components/blog/post-card";
+import { Button } from "@/components/ui/button";
 
 const meta = {
   title: "Pages/FilteredResults",
@@ -51,9 +52,9 @@ function SearchContent({ showMobileNav }: { showMobileNav?: boolean }) {
       >
         <div className="mb-6 flex items-center gap-2">
           <h1 className="text-xl font-semibold">Search: React hooks</h1>
-          <button className="text-muted-foreground">
+          <Button variant="ghost" size="icon" className="size-8">
             <ChevronDown className="size-4" />
-          </button>
+          </Button>
         </div>
 
         <div className="flex flex-col gap-8">

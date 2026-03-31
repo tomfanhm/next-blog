@@ -5,6 +5,7 @@ import { useActionState, useRef, useState } from "react";
 import { createCommentAction } from "@/app/actions/comment";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { type ActionResult, AVATAR_PRESETS, type AvatarPreset } from "@/lib/validators";
 
@@ -39,21 +40,28 @@ export function CommentForm({ postId, parentId, onCancel }: CommentFormProps) {
 
   return (
     <form ref={formRef} action={action} className="flex flex-col gap-3">
-      <div className="flex gap-3">
-        <Input name="authorName" placeholder="Your name" required className="flex-1" />
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="authorName">Name</Label>
+        <Input id="authorName" name="authorName" placeholder="Your name" required />
       </div>
 
       <AvatarPicker selected={avatar} onSelect={setAvatar} />
 
-      <Textarea
-        name="content"
-        placeholder={parentId ? "Write a reply..." : "Share your thoughts on this post..."}
-        required
-        className="resize-none"
-      />
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="content">Comment</Label>
+        <Textarea
+          id="content"
+          name="content"
+          placeholder={parentId ? "Write a reply..." : "Share your thoughts on this post..."}
+          required
+          className="resize-none"
+        />
+      </div>
 
-      {state && !state.success && <p className="text-destructive text-sm">{state.error}</p>}
-      {state?.success && <p className="text-sm text-green-600">Comment posted!</p>}
+      <div aria-live="polite">
+        {state && !state.success && <p className="text-destructive text-sm">{state.error}</p>}
+        {state?.success && <p className="text-success text-sm">Comment posted!</p>}
+      </div>
 
       <div className="flex items-center justify-end gap-2">
         {onCancel && (

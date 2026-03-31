@@ -12,13 +12,7 @@ import { createPostAction } from "@/app/actions/post";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-
-function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+import { slugify } from "@/lib/format";
 
 export default function NewPostPage() {
   const router = useRouter();
@@ -73,7 +67,7 @@ export default function NewPostPage() {
       {/* Editor header */}
       <div className="border-border flex items-center justify-between border-b px-6 py-3">
         <div className="flex items-center gap-3">
-          <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
+          <Link href="/" className="text-muted-foreground hover:text-foreground">
             <ArrowLeft className="size-4" />
           </Link>
           <span className="text-sm font-medium">New Post</span>
@@ -87,7 +81,7 @@ export default function NewPostPage() {
             </span>
           )}
           <Button variant="outline" size="sm" asChild>
-            <Link href="/dashboard">Cancel</Link>
+            <Link href="/">Cancel</Link>
           </Button>
           <Button size="sm" disabled={isPending} onClick={handlePublish}>
             {isPending ? "Publishing..." : "Publish"}
@@ -118,7 +112,7 @@ export default function NewPostPage() {
               variant="ghost"
               size="icon"
               onClick={clearThumbnail}
-              className="bg-background/80 absolute top-0 right-0 size-5 rounded-bl"
+              className="absolute top-0 right-0 size-5 rounded-bl"
             >
               <X className="size-3" />
             </Button>
@@ -166,7 +160,7 @@ export default function NewPostPage() {
               setMarkdown(e.target.value);
               setError(null);
             }}
-            className="min-h-[500px] resize-none rounded-none border-0 px-6 py-4 font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="min-h-96 resize-none rounded-none border-0 px-6 py-4 font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
 

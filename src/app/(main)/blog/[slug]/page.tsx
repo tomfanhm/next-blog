@@ -7,6 +7,7 @@ import { PostArticle } from "@/components/blog/post-article";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getPostBySlug } from "@/lib/db";
+import { formatDate } from "@/lib/format";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -19,17 +20,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const post = await getPostBySlug(slug);
   if (!post || !post.published) notFound();
 
-  const formatDate = (date: Date) =>
-    date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
-
   return (
     <PostArticle
       title={post.title}
-      date={formatDate(post.createdAt)}
+      date={formatDate(post.createdAt, "long")}
       views={post.views}
       thumbnail={post.thumbnail}
       content={post.content}

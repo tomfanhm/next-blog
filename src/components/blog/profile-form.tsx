@@ -2,7 +2,6 @@
 
 import { useActionState, useState } from "react";
 
-import { updateProfileAction } from "@/app/actions/profile";
 import { AvatarPicker } from "@/components/blog/avatar-picker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,16 +11,17 @@ import type { ActionResult, AvatarPreset } from "@/lib/validators";
 
 interface ProfileFormProps {
   userName: string;
+  onSubmit: (formData: FormData) => Promise<ActionResult>;
 }
 
-export function ProfileForm({ userName }: ProfileFormProps) {
+export function ProfileForm({ userName, onSubmit }: ProfileFormProps) {
   const [selected, setSelected] = useState<AvatarPreset>("avatar-cat");
 
   async function handleSubmit(
     _prev: ActionResult | null,
     formData: FormData,
   ): Promise<ActionResult> {
-    return updateProfileAction(formData);
+    return onSubmit(formData);
   }
 
   const [state, action, isPending] = useActionState(handleSubmit, null);
@@ -41,9 +41,10 @@ export function ProfileForm({ userName }: ProfileFormProps) {
 
       <AvatarPicker selected={selected} onSelect={setSelected} />
 
-      {state && !state.success && <p className="text-destructive text-sm">{state.error}</p>}
-
-      {state?.success && <p className="text-sm text-green-600">Profile updated!</p>}
+      <div aria-live="polite">
+        {state && !state.success && <p className="text-destructive text-sm">{state.error}</p>}
+        {state?.success && <p className="text-success text-sm">Profile updated!</p>}
+      </div>
 
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Saving..." : "Save Changes"}

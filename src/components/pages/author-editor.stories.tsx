@@ -103,7 +103,7 @@ function EditorContent() {
             onChange={(e) => {
               setMarkdown(e.target.value);
             }}
-            className="min-h-[500px] resize-none rounded-none border-0 px-6 py-4 font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="min-h-96 resize-none rounded-none border-0 px-6 py-4 font-mono text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
         <div className="border-border flex-1 border-t md:border-t-0">

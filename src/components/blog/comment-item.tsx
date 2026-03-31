@@ -36,12 +36,7 @@ export function CommentItem({
         <p className="text-muted-foreground mt-1 text-sm">{content}</p>
 
         {onReply && (
-          <Button
-            variant="link"
-            size="sm"
-            onClick={onReply}
-            className="text-muted-foreground hover:text-foreground mt-1 h-auto p-0 text-xs font-medium"
-          >
+          <Button variant="link" size="sm" onClick={onReply} className="mt-1 h-auto p-0">
             Reply
           </Button>
         )}

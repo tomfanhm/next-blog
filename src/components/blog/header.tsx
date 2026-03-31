@@ -36,10 +36,17 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
         setMenuOpen(false);
       }
     }
+    function handleEscapeKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+      }
+    }
     if (menuOpen) {
       document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscapeKey);
       return () => {
         document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("keydown", handleEscapeKey);
       };
     }
   }, [menuOpen]);
@@ -86,6 +93,8 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
                 onClick={() => {
                   setMenuOpen((prev) => !prev);
                 }}
+                aria-expanded={menuOpen}
+                aria-haspopup="menu"
                 className="size-8 rounded-full"
               >
                 {user.image ? (
@@ -104,17 +113,21 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
               </Button>
 
               {menuOpen && (
-                <div className="bg-popover border-border absolute top-full right-0 z-50 mt-2 w-48 rounded-md border py-1 shadow-md">
+                <div
+                  role="menu"
+                  className="bg-popover border-border absolute top-full right-0 z-50 mt-2 w-48 rounded-md border py-1 shadow-md"
+                >
                   <div className="border-border border-b px-3 py-2">
                     <p className="text-sm font-medium">{user.name || "User"}</p>
                   </div>
 
                   <Button
                     variant="ghost"
-                    className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2 text-sm font-normal"
+                    className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2"
                     asChild
                   >
                     <Link
+                      role="menuitem"
                       href="/profile"
                       onClick={() => {
                         setMenuOpen(false);
@@ -128,11 +141,12 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
                   {user.role === "admin" && (
                     <Button
                       variant="ghost"
-                      className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2 text-sm font-normal"
+                      className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2"
                       asChild
                     >
                       <Link
-                        href="/dashboard/posts/new"
+                        role="menuitem"
+                        href="/create"
                         onClick={() => {
                           setMenuOpen(false);
                         }}
@@ -149,7 +163,8 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
                         <Button
                           type="submit"
                           variant="ghost"
-                          className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2 text-sm font-normal"
+                          role="menuitem"
+                          className="h-auto w-full justify-start gap-2 rounded-none px-3 py-2"
                         >
                           <LogOut className="size-4" />
                           Log out

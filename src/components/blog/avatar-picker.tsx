@@ -22,13 +22,16 @@ interface AvatarPickerProps {
 
 export function AvatarPicker({ selected, onSelect, className }: AvatarPickerProps) {
   return (
-    <div className={cn("flex flex-col gap-2", className)}>
-      <span className="text-sm font-medium">Choose an Avatar</span>
-      <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">
+    <fieldset className={cn("flex flex-col gap-2 border-none p-0", className)}>
+      <legend className="text-sm font-medium">Choose an Avatar</legend>
+      <div role="radiogroup" className="grid grid-cols-4 gap-2 sm:grid-cols-8">
         {AVATAR_PRESETS.map((preset) => (
           <button
             key={preset}
             type="button"
+            role="radio"
+            aria-checked={selected === preset}
+            aria-label={`Select ${preset.replace("avatar-", "")} avatar`}
             onClick={() => {
               onSelect(preset);
             }}
@@ -43,7 +46,7 @@ export function AvatarPicker({ selected, onSelect, className }: AvatarPickerProp
           </button>
         ))}
       </div>
-    </div>
+    </fieldset>
   );
 }
 

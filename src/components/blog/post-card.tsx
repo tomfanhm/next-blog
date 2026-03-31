@@ -2,6 +2,7 @@ import { Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { excerpt, formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 interface PostCardProps {
@@ -12,20 +13,6 @@ interface PostCardProps {
   views: number;
   thumbnail?: string | null;
   className?: string;
-}
-
-function excerpt(content: string, maxLength = 160): string {
-  const plain = content.replace(/[#*`>\-\[\]()!]/g, "").trim();
-  if (plain.length <= maxLength) return plain;
-  return plain.slice(0, maxLength).trimEnd() + "…";
-}
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }
 
 export function PostCard({
@@ -56,7 +43,7 @@ export function PostCard({
         <p className="text-muted-foreground mt-1 line-clamp-2 text-sm">{excerpt(content)}</p>
 
         <div className="text-muted-foreground mt-3 flex items-center gap-3 text-xs">
-          <time>{formatDate(createdAt)}</time>
+          <time>{formatDate(createdAt, "short")}</time>
           <span className="flex items-center gap-1">
             <Eye className="size-3.5" />
             {views.toLocaleString()} views

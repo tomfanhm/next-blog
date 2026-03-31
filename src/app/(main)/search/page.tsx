@@ -20,7 +20,7 @@ export default async function SearchPage({
     <div className="mx-auto w-full max-w-2xl px-4 py-6 md:px-6 md:py-8">
       <div className="mb-6 flex items-center gap-2">
         <h1 className="text-xl font-semibold">{query ? `Search: ${query}` : "All Posts"}</h1>
-        <Button variant="ghost" size="icon" className="text-muted-foreground size-8">
+        <Button variant="ghost" size="icon" className="size-8">
           <ChevronDown className="size-4" />
         </Button>
       </div>

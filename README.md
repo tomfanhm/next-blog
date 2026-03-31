@@ -26,10 +26,11 @@ A full-featured blog platform built on top of Next Starter, a handy Next.js 16 s
 
 - **Blog posts** — Create, edit, delete, and publish posts with Markdown content. Each post has a unique slug, view counter, and published flag.
 - **Full-text search** — Postgres `tsvector` generated column with GIN index. Title weighted 'A', content 'B', ranked by `ts_rank`.
-- **Nested comments** — One level of reply nesting via a self-referential `CommentReplies` relation.
-- **Image uploads** — Upload to Cloudflare R2 via presigned S3-compatible URLs.
-- **Route protection** — `proxy.ts` (Next.js 16) redirects unauthenticated users to `/sign-in` with a `callbackUrl`.
-- **Server Actions** — Form handling via `useActionState` with Zod validation and `ActionResult<T>` discriminated union returns.
+- **Nested comments** — One level of reply nesting via a self-referential `CommentReplies` relation. Deletion restricted to admin users.
+- **Image uploads** — Upload to Cloudflare R2 via S3-compatible API with server-side key validation.
+- **Route protection** — `proxy.ts` (Next.js 16) redirects unauthenticated users to `/sign-in` with a `callbackUrl`. Admin paths cover `/create` and `/dashboard`.
+- **Server Actions** — Form handling via `useActionState` with Zod validation and `ActionResult<T>` discriminated union returns. Error messages are sanitized (no raw DB errors exposed to clients).
+- **User profiles** — Authenticated users can update their display name via a profile form.
 - **Storybook** — Component stories alongside source files (`*.stories.tsx`) plus page-level composite stories.
 
 ## Getting Started
@@ -91,22 +92,27 @@ Open [http://localhost:3000](http://localhost:3000).
 src/
 ├── app/
 │   ├── (auth)/              # Public auth pages (sign-in, sign-up)
-│   ├── (dashboard)/         # Protected pages (posts, comments, admin)
-│   ├── actions/             # Server Actions (post.ts, comment.ts)
+│   ├── (dashboard)/         # Protected admin pages (create post)
+│   ├── (main)/              # Public pages (blog, search, profile)
+│   ├── actions/             # Server Actions (post.ts, comment.ts, profile.ts)
 │   ├── api/auth/            # Auth.js API route handler
 │   ├── layout.tsx           # Root layout (fonts, providers)
 │   └── page.tsx             # Home page
 ├── components/
+│   ├── auth/                # Auth forms (login, register, OAuth buttons)
+│   ├── blog/                # Blog components (header, comments, cards)
 │   ├── ui/                  # Reusable UI components (CVA + Radix)
 │   └── pages/               # Page-level composite stories
 ├── lib/
 │   ├── auth.ts              # Auth.js configuration
 │   ├── db.ts                # Prisma client (lazy singleton)
+│   ├── format.ts            # Shared utilities (formatDate, timeAgo, excerpt, slugify)
 │   ├── s3.ts                # R2 upload/delete helpers
 │   ├── query-client.ts      # TanStack Query client factory
 │   ├── utils.ts             # cn() utility
 │   └── validators.ts        # Zod schemas + ActionResult<T>
 ├── providers/               # Client-side providers (React Query)
+├── types/                   # Ambient type declarations (CSS modules)
 └── proxy.ts                 # Route protection (Next.js 16 proxy)
 tests/
 ├── unit/                    # Vitest unit tests

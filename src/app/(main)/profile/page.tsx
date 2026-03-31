@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
+import { updateProfileAction } from "@/app/actions/profile";
+import { ProfileForm } from "@/components/blog/profile-form";
 import { auth } from "@/lib/auth";
-
-import { ProfileForm } from "./profile-form";
 
 export const metadata = { title: "Profile" };
 
@@ -12,7 +12,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-md px-4 py-8">
-      <ProfileForm userName={session.user.name ?? ""} />
+      <ProfileForm userName={session.user.name ?? ""} onSubmit={updateProfileAction} />
     </div>
   );
 }
