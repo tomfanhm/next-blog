@@ -160,7 +160,7 @@ export default function NewPostPage() {
         </div>
 
         <div className="border-border flex-1 border-t md:border-t-0">
-          <div className="prose prose-neutral max-w-none px-6 py-4">
+          <div className="prose prose-neutral dark:prose-invert max-w-none px-6 py-4">
             {markdown ? (
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
             ) : (

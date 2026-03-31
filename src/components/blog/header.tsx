@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { avatarEmoji } from "@/components/blog/avatar-picker";
-import { Avatar, AvatarFallback, AvatarText } from "@/components/ui/avatar";
+import { Avatar, AvatarText } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -76,8 +76,7 @@ export function BlogHeader({ className, showSearch = true, user, onSignOut }: Bl
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="size-8 rounded-full">
                   <Avatar size="sm">
-                    <AvatarText>{avatarEmoji(user.avatar)}</AvatarText>
-                    <AvatarFallback>{user.name.charAt(0).toUpperCase() || "U"}</AvatarFallback>
+                    <AvatarText>{avatarEmoji(user.avatar || "avatar-cat")}</AvatarText>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
