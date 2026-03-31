@@ -1,5 +1,6 @@
-import { Eye } from "lucide-react";
+import { ArrowLeft, ChevronDown, Eye } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CommentForm } from "@/components/blog/comment-form";
@@ -33,7 +34,16 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     });
 
   return (
-    <article className="mx-auto max-w-2xl px-4 py-6 md:px-6 md:py-8">
+    <article className="mx-auto w-full max-w-2xl px-4 py-6 md:px-6 md:py-8">
+      {/* Back link — mobile only */}
+      <Link
+        href="/"
+        className="text-muted-foreground mb-4 flex items-center gap-1 text-sm md:hidden"
+      >
+        <ArrowLeft className="size-4" />
+        Next Blog
+      </Link>
+
       <h1 className="text-2xl font-bold md:text-3xl">{post.title}</h1>
 
       <div className="text-muted-foreground mt-2 flex items-center gap-2 text-sm">
@@ -58,7 +68,13 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       <Separator className="my-8" />
 
       <section>
-        <h2 className="text-lg font-semibold">{post.comments.length} Comments</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">{post.comments.length} Comments</h2>
+          <button className="text-muted-foreground flex items-center gap-1 text-sm">
+            Newest
+            <ChevronDown className="size-3.5" />
+          </button>
+        </div>
 
         <div className="mt-6">
           <CommentForm postId={post.id} />

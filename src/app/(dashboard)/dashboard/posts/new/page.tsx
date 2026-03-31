@@ -81,6 +81,11 @@ export default function NewPostPage() {
 
         <div className="flex items-center gap-3">
           {error && <span className="text-destructive hidden text-xs sm:block">{error}</span>}
+          {!error && (
+            <span className="text-muted-foreground hidden text-xs sm:block">
+              Autosave: saved to local storage
+            </span>
+          )}
           <Button variant="outline" size="sm" asChild>
             <Link href="/dashboard">Cancel</Link>
           </Button>
@@ -150,7 +155,7 @@ export default function NewPostPage() {
       <Separator className="mt-4" />
 
       {/* Editor split pane */}
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-1 flex-col md:flex-row">
         <div className="border-border flex-1 md:border-r">
           <Textarea
             placeholder="Write your post content in Markdown..."
